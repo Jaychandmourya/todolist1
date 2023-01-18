@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# todolist1
+=======
+>>>>>>> develop
 # todolist1
 
 ## Project setup
@@ -22,3 +28,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+<<<<<<< HEAD
+=======
+>>>>>>> 094fe57 (init)
+>>>>>>> develop
