@@ -3,26 +3,32 @@
     {
       "taskName": "testing",
       "addpriority": "medium",
-      "status": "done",
+      "status": true,
       "id": 7
     },
     {
       "taskName": "testing home page",
       "addpriority": "medium",
-      "status": "done",
+      "status": true,
       "id": 9
     },
     {
       "taskName": "bhawik ",
       "addpriority": "low",
-      "status": "done",
+      "status": true,
       "id": 10
     },
     {
       "taskName": "Bhawik",
       "addpriority": "low",
-      "status": "done",
+      "status": true,
       "id": 11
+    },
+    {
+      "taskName": "dasfdsfdsfdsf",
+      "addpriority": "low",
+      "status": false,
+      "id": 12
     }
   ]
 }

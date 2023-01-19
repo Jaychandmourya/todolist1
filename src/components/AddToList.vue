@@ -71,7 +71,7 @@ export default {
         const res = await axios.post(`http://localhost:3000/todos`, {
           taskName: this.addtask,
           addpriority: this.addpriority,
-          status: "undone",
+          status: false,
         });
         console.log(res.data);
         this.$router.push("/");

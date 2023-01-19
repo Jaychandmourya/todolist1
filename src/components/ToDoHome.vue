@@ -42,31 +42,24 @@
                         >
                           <div class="form-check">
                             <input
-                              @click="
-                                boughtItem(
-                                  tododata.id,
-                                  tododata.status,
-                                  tododata.taskName,
-                                  tododata.addpriority
-                                )
-                              "
+                              @click="boughtItem(tododata)"
                               class="form-check-input"
                               type="checkbox"
-                              :value="upstatus"
                               v-model="tododata.status"
-                              true-value="done"
-                              false-value="undone"
                             />
 
                             <label
                               class="form-check-label"
                               for="flexCheckCheckedDisabled"
                             >
-                              {{ tododata.status }}
+                              {{ tododata.status ? "Done" : "Undone" }}
                             </label>
                           </div>
                           <td class="align-middle">
-                            <span>{{ tododata.taskName }}</span>
+                            <span
+                              v-bind:class="tododata.status ? 'isclicked' : ''"
+                              >{{ tododata.taskName }}</span
+                            >
                           </td>
                           <td class="align-middle">
                             <h6 class="mb-0">
@@ -151,17 +144,19 @@ export default {
       axios.delete(`http://localhost:3000/todos/${id}`);
       this.todos = this.todos.filter((tododata) => tododata.id !== id);
     },
-    async boughtItem(id, status, taskname, priority) {
-      if (status == "undone") {
+    async boughtItem(tododata) {
+      if (tododata.status == false) {
         try {
-          const user = await axios.put("http://localhost:3000/todos/" + id, {
-            // console.log(user.data.taskName);
-            taskName: taskname,
-            addpriority: priority,
-            status: "done",
-          });
-          this.upstatus = user.data.status;
-          // console.log(this.upstatus);
+          const user = await axios.put(
+            "http://localhost:3000/todos/" + tododata.id,
+            {
+              taskName: tododata.taskName,
+              addpriority: tododata.addpriority,
+              status: true,
+            }
+          );
+          //   console.log(this.upstatus);
+          console.log(user.data.taskName);
           alert("User updated!");
           // location.reload();
         } catch (e) {
@@ -169,11 +164,14 @@ export default {
         }
       } else {
         try {
-          const user = await axios.put("http://localhost:3000/todos/" + id, {
-            taskName: taskname,
-            addpriority: priority,
-            status: "undone",
-          });
+          const user = await axios.put(
+            "http://localhost:3000/todos/" + tododata.id,
+            {
+              taskName: tododata.taskName,
+              addpriority: tododata.addpriority,
+              status: false,
+            }
+          );
           this.upstatus = user.data.status;
           // console.log(this.upstatus);
           alert("User updated!");
@@ -210,5 +208,8 @@ export default {
 }
 a {
   text-decoration: none;
+}
+.isclicked {
+  text-decoration: line-through;
 }
 </style>
