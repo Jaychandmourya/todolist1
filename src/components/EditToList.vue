@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     async UpdateItem(id, status) {
-      console.log(status);
+      // console.log(status);
       try {
         const user = await axios.put("http://localhost:3000/todos/" + id, {
           taskName: this.items.taskName,

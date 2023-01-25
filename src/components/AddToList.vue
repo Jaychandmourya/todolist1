@@ -13,7 +13,7 @@
             >Enter Task</label
           >
           <textarea
-            v-model="addtask"
+            v-model="addtotask"
             class="form-control"
             id="exampleFormControlTextarea1"
             rows="3"
@@ -23,16 +23,10 @@
           <label for="exampleFormControlTextarea1" class="form-label"
             >Select Priority</label
           >
-          <select
-            v-model="addpriority"
-            class="form-select"
-            aria-label="Default select example"
-          >
-            <option selected>Select Priority</option>
-            <option v-for="prodata in selectpro" v-bind:key="prodata">
-              {{ prodata }}
-            </option>
-          </select>
+          <select-priority
+            v-bind:selectname="selectpro"
+            @selectchangevalue="selectvalue($event)"
+          ></select-priority>
         </div>
         <div class="col-auto pt-4">
           <button
@@ -52,25 +46,32 @@
 </template>
 <script>
 import axios from "axios";
+import SelectPriority from "./SelectPriority.vue";
 export default {
+  components: {
+    "select-priority": SelectPriority,
+  },
   data() {
     return {
       todotask: {
-        addtask: "",
+        addtotask: "",
         addpriority: null,
         status: "undone",
+        selectedvalue: "",
       },
       todata: [],
-      selectpro: ["high", "medium", "low"],
+      // selectpro: ["high", "medium", "low"],
+      selectpro: [{ option: "high" }, { option: "medium" }, { option: "low" }],
       submitted: false,
     };
   },
   methods: {
     async addItem() {
+      // console.log(this.selectedvalue);
       try {
         const res = await axios.post(`http://localhost:3000/todos`, {
-          taskName: this.addtask,
-          addpriority: this.addpriority,
+          taskName: this.addtotask,
+          addpriority: this.selectedvalue,
           status: false,
         });
         console.log(res.data);
@@ -79,6 +80,9 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+    selectvalue(event) {
+      this.selectedvalue = event;
     },
   },
 };

@@ -94,12 +94,15 @@
                             style="color: red"
                           ></i
                         ></a> -->
-                            <button class="btn btn-warning">
-                              <router-link v-bind:to="'/editask/' + tododata.id"
+                            <button
+                              class="btn btn-warning"
+                              @click="showModal(tododata)"
+                            >
+                              <!-- <router-link v-bind:to="'/editask/' + tododata.id"
                                 >Edit</router-link
-                              >
+                              > -->
                               <!-- to="{ name: '/editask/', params: { Id: tododata.id }" -->
-                              <!-- to="{ path: '/editask/', params: { id: {{ tododata.id }} }" --></button
+                              <!-- to="{ path: '/editask/', params: { id: {{ tododata.id }} }" -->Edit</button
                             >&nbsp;
                             <button
                               class="btn btn-danger"
@@ -117,18 +120,36 @@
             </div>
           </div>
         </section>
+        <div>
+          <!-- <button class="btn btn-info" @click="showModal">show modal</button> -->
+          <example-modal
+            v-if="displayModal"
+            :visible="true"
+            variant="success"
+            @close-modal-event="hideModal"
+            v-bind:editlistdata.sync="editododata"
+          ></example-modal>
+
+          <!-- Modal -->
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import EditToDoModel from "./EditToDoModel.vue";
 import axios from "axios";
 export default {
   name: "App",
+  components: {
+    "example-modal": EditToDoModel,
+  },
   data() {
     return {
       todos: [],
       upstatus: "",
+      editododata: [],
+      displayModal: false,
     };
   },
   async created() {
@@ -140,6 +161,13 @@ export default {
     }
   },
   methods: {
+    showModal(tododata) {
+      this.editododata = tododata;
+      this.displayModal = true;
+    },
+    hideModal() {
+      this.displayModal = false;
+    },
     removeItem(id) {
       axios.delete(`http://localhost:3000/todos/${id}`);
       this.todos = this.todos.filter((tododata) => tododata.id !== id);
